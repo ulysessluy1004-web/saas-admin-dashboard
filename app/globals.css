@@ -23,3 +23,207 @@ a,
 select {
   cursor: pointer;
 }
+
+.auth-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.auth-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.3;
+  animation: auth-float 12s ease-in-out infinite;
+}
+
+.auth-orb-one {
+  left: -8rem;
+  top: -8rem;
+  height: 24rem;
+  width: 24rem;
+  background: #4f46e5;
+}
+
+.auth-orb-two {
+  right: -6rem;
+  top: 30%;
+  height: 22rem;
+  width: 22rem;
+  background: #7c3aed;
+  animation-delay: -4s;
+}
+
+.auth-orb-three {
+  bottom: -10rem;
+  left: 35%;
+  height: 20rem;
+  width: 20rem;
+  background: #0891b2;
+  animation-delay: -8s;
+}
+
+.auth-enter {
+  animation: auth-enter 700ms ease-out both;
+}
+
+.auth-enter-delay {
+  animation: auth-enter 700ms 140ms ease-out both;
+}
+
+.auth-feature {
+  animation: auth-enter 600ms ease-out both;
+}
+
+.auth-shine::after {
+  position: absolute;
+  inset: -50%;
+  content: "";
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 65%
+  );
+  transform: translateX(-80%);
+  transition: transform 600ms ease;
+}
+
+.auth-shine:hover::after {
+  transform: translateX(80%);
+}
+
+.dashboard-enter {
+  animation: dashboard-enter 560ms ease-out both;
+}
+
+.dashboard-slide-left {
+  animation: dashboard-slide-left 620ms ease-out both;
+}
+
+.dashboard-drop {
+  animation: dashboard-drop 500ms ease-out both;
+}
+
+.dashboard-pop {
+  animation: dashboard-pop 180ms ease-out both;
+  transform-origin: top right;
+}
+
+.dashboard-enter section,
+.dashboard-enter article {
+  animation: dashboard-card-enter 520ms ease-out both;
+}
+
+.dashboard-enter section:nth-child(1) {
+  animation-delay: 40ms;
+}
+
+.dashboard-enter section:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.dashboard-enter section:nth-child(3) {
+  animation-delay: 160ms;
+}
+
+.dashboard-enter section:nth-child(4) {
+  animation-delay: 220ms;
+}
+
+@keyframes auth-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2rem, -2rem, 0) scale(1.12);
+  }
+}
+
+@keyframes auth-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dashboard-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dashboard-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dashboard-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes dashboard-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dashboard-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-orb,
+  .auth-enter,
+  .auth-enter-delay,
+  .auth-feature,
+  .dashboard-enter,
+  .dashboard-slide-left,
+  .dashboard-drop,
+  .dashboard-pop,
+  .dashboard-enter section,
+  .dashboard-enter article {
+    animation: none;
+  }
+
+  .auth-shine::after {
+    display: none;
+  }
+}

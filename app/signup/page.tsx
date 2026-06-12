@@ -1,81 +1,135 @@
 import Link from "next/link";
 
+const benefits = [
+  "Beautiful dashboards from day one",
+  "Customer, analytics, and billing views",
+  "Responsive UI built for every screen",
+];
+
 export default function SignupPage() {
   return (
-    <main className="grid min-h-screen bg-slate-950 px-4 py-10 text-white lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-      <section className="mx-auto flex w-full max-w-md flex-col justify-center lg:px-10">
-        <Link href="/" className="mb-8 text-sm font-semibold text-indigo-300">
-          Back to dashboard
-        </Link>
+    <main className="auth-grid relative min-h-screen overflow-hidden bg-[#070a12] px-4 py-6 text-white sm:px-6 lg:px-8">
+      <div className="auth-orb auth-orb-one" />
+      <div className="auth-orb auth-orb-two" />
+      <div className="auth-orb auth-orb-three" />
 
-        <div className="rounded-[2rem] bg-white p-6 text-slate-950 shadow-2xl shadow-black/20 sm:p-8">
-          <p className="text-sm font-semibold text-indigo-600">Signup</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight">
-            Create your workspace
-          </h1>
-          <p className="mt-2 text-sm leading-6 text-slate-500">
-            This is a mock signup screen for the portfolio project. It does not
-            create users or save data yet.
-          </p>
-
-          <form className="mt-8 space-y-5">
-            <label className="block">
-              <span className="text-sm font-semibold text-slate-700">Work email</span>
-              <input
-                type="email"
-                placeholder="you@company.com"
-                className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-100"
-              />
-            </label>
-
-            <label className="block">
-              <span className="text-sm font-semibold text-slate-700">Password</span>
-              <input
-                type="password"
-                placeholder="Create a password"
-                className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-100"
-              />
-            </label>
-
-            <button
-              type="submit"
-              className="w-full rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700"
+      <div className="relative z-10 mx-auto grid min-h-[calc(100vh-3rem)] max-w-7xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.035] shadow-2xl shadow-black/40 backdrop-blur-2xl lg:grid-cols-[0.95fr_1.05fr]">
+        <section className="auth-enter-delay flex items-center justify-center p-5 sm:p-10 lg:p-14">
+          <div className="w-full max-w-md">
+            <Link
+              href="/"
+              className="group mb-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-400 transition hover:text-white lg:hidden"
             >
-              Create account
-            </button>
-          </form>
-
-          <p className="mt-6 text-center text-sm text-slate-500">
-            Already have an account?{" "}
-            <Link href="/login" className="font-bold text-indigo-600 hover:text-indigo-700">
-              Sign in
+              <span className="transition group-hover:-translate-x-1">←</span>
+              Dashboard
             </Link>
-          </p>
-        </div>
-      </section>
 
-      <section className="mt-8 hidden flex-col justify-between rounded-[2rem] bg-indigo-600 p-8 shadow-2xl shadow-indigo-950/30 lg:flex">
-        <div>
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white/15 text-xl font-black">
-            N
+            <div className="mb-8">
+              <p className="text-sm font-bold text-indigo-400">Start building</p>
+              <h1 className="mt-3 text-4xl font-bold tracking-tight">
+                Create your workspace
+              </h1>
+              <p className="mt-3 text-sm leading-6 text-slate-400">
+                Preview a modern signup experience. No account or data will
+                actually be created yet.
+              </p>
+            </div>
+
+            <form className="space-y-5">
+              <label className="group block">
+                <span className="text-sm font-semibold text-slate-300 transition group-focus-within:text-indigo-300">
+                  Work email
+                </span>
+                <input
+                  type="email"
+                  placeholder="you@company.com"
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3.5 text-sm text-white outline-none transition duration-300 placeholder:text-slate-600 hover:border-white/20 hover:bg-white/[0.075] focus:-translate-y-0.5 focus:border-indigo-400/60 focus:bg-white/[0.08] focus:ring-4 focus:ring-indigo-500/10"
+                />
+              </label>
+
+              <label className="group block">
+                <span className="text-sm font-semibold text-slate-300 transition group-focus-within:text-indigo-300">
+                  Password
+                </span>
+                <input
+                  type="password"
+                  placeholder="Create a secure password"
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3.5 text-sm text-white outline-none transition duration-300 placeholder:text-slate-600 hover:border-white/20 hover:bg-white/[0.075] focus:-translate-y-0.5 focus:border-indigo-400/60 focus:bg-white/[0.08] focus:ring-4 focus:ring-indigo-500/10"
+                />
+              </label>
+
+              <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.035] p-3 text-xs leading-5 text-slate-400 transition hover:bg-white/[0.06]">
+                <input type="checkbox" className="mt-0.5 h-4 w-4 accent-indigo-500" />
+                I agree to the mock terms and understand this portfolio form
+                does not create a real account.
+              </label>
+
+              <button
+                type="submit"
+                className="auth-shine group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 px-4 py-3.5 text-sm font-bold text-white shadow-xl shadow-indigo-950/50 transition duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-indigo-700/30 active:translate-y-0 active:scale-[0.99]"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Create workspace
+                  <span className="transition duration-300 group-hover:translate-x-1">→</span>
+                </span>
+              </button>
+            </form>
+
+            <p className="mt-7 text-center text-sm text-slate-500">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="font-bold text-indigo-400 transition hover:text-indigo-300"
+              >
+                Sign in
+              </Link>
+            </p>
           </div>
-          <h2 className="mt-10 max-w-xl text-5xl font-bold tracking-tight">
-            Build a clean admin experience from day one.
-          </h2>
-          <p className="mt-5 max-w-lg text-sm leading-6 text-indigo-100">
-            Start with a polished dashboard UI today. Add authentication,
-            database, and billing integrations later.
-          </p>
-        </div>
+        </section>
 
-        <div className="rounded-3xl bg-white/10 p-5 ring-1 ring-white/10">
-          <p className="text-sm font-semibold">Portfolio-ready SaaS UI</p>
-          <p className="mt-2 text-sm leading-6 text-indigo-100">
-            Includes dashboard, customers, analytics, billing, settings, and
-            now mock authentication screens.
-          </p>
-        </div>
-      </section>
+        <section className="auth-enter hidden flex-col justify-between border-l border-white/10 p-10 lg:flex xl:p-14">
+          <Link href="/" className="group ml-auto flex w-fit items-center gap-3">
+            <span>
+              <span className="block text-right font-bold">Nexa Admin</span>
+              <span className="block text-xs text-slate-500">SaaS command center</span>
+            </span>
+            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-lg font-black shadow-lg shadow-indigo-950 transition duration-300 group-hover:rotate-6 group-hover:scale-110">
+              N
+            </span>
+          </Link>
+
+          <div className="max-w-xl">
+            <div className="auth-enter-delay inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-400/10 px-3 py-1.5 text-xs font-bold text-indigo-300">
+              Modern SaaS foundation
+            </div>
+            <h2 className="auth-enter-delay mt-6 text-5xl font-bold leading-[1.05] tracking-tight xl:text-6xl">
+              Launch with an interface
+              <span className="block bg-gradient-to-r from-indigo-300 via-violet-300 to-cyan-300 bg-clip-text text-transparent">
+                people love using.
+              </span>
+            </h2>
+            <p className="auth-enter-delay mt-6 max-w-lg text-base leading-7 text-slate-400">
+              Begin with polished frontend screens today, then connect your
+              authentication and business logic when you are ready.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {benefits.map((benefit, index) => (
+              <div
+                key={benefit}
+                className="auth-feature flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-4 text-sm font-semibold text-slate-300 transition duration-300 hover:translate-x-2 hover:border-indigo-400/30 hover:bg-white/[0.08] hover:text-white"
+                style={{ animationDelay: `${500 + index * 120}ms` }}
+              >
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-emerald-400/10 text-xs text-emerald-300">
+                  ✓
+                </span>
+                {benefit}
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

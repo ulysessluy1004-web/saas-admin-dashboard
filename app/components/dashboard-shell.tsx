@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import type { ReactNode } from "react";
 
 const navItems = [
@@ -7,6 +10,30 @@ const navItems = [
   { label: "Analytics", href: "/analytics", icon: "chart" },
   { label: "Billing", href: "/billing", icon: "wallet" },
   { label: "Settings", href: "/settings", icon: "settings" },
+];
+
+const initialNotifications = [
+  {
+    id: 1,
+    title: "Invoice paid",
+    message: "BrightLabs paid invoice #INV-1048 for $4,200.",
+    time: "4 min ago",
+    unread: true,
+  },
+  {
+    id: 2,
+    title: "New customer",
+    message: "Maya Johnson joined the Business plan.",
+    time: "22 min ago",
+    unread: true,
+  },
+  {
+    id: 3,
+    title: "Trial ending soon",
+    message: "Northstar Finance trial ends in 2 days.",
+    time: "1 hour ago",
+    unread: false,
+  },
 ];
 
 const iconPaths: Record<string, ReactNode> = {
@@ -153,7 +180,7 @@ function SidebarLink({
 
 function Sidebar({ activePath }: { activePath: string }) {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 flex-col border-r border-slate-200/80 bg-white/95 shadow-sm backdrop-blur lg:flex">
+    <aside className="dashboard-slide-left fixed inset-y-0 left-0 z-30 hidden w-72 flex-col border-r border-slate-200/80 bg-white/95 shadow-sm backdrop-blur lg:flex">
       <div className="flex h-24 items-center gap-3 px-6">
         <div className="grid h-11 w-11 place-items-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
           <Icon name="spark" />
@@ -216,8 +243,22 @@ function MobileNavigation({ activePath }: { activePath: string }) {
 }
 
 function Topbar({ activePath }: { activePath: string }) {
+  const [notifications, setNotifications] = useState(initialNotifications);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const unreadCount = notifications.filter((item) => item.unread).length;
+
+  function markAllRead() {
+    setNotifications((current) =>
+      current.map((item) => ({ ...item, unread: false })),
+    );
+  }
+
+  function clearNotifications() {
+    setNotifications([]);
+  }
+
   return (
-    <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-slate-50/90 backdrop-blur lg:ml-72">
+    <header className="dashboard-drop sticky top-0 z-20 border-b border-slate-200/80 bg-slate-50/90 backdrop-blur lg:ml-72">
       <div className="flex h-20 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3 lg:hidden">
           <div className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-slate-600 ring-1 ring-slate-200">
@@ -241,15 +282,134 @@ function Topbar({ activePath }: { activePath: string }) {
         </label>
 
         <div className="ml-auto flex items-center gap-3">
-          <button
-            aria-label="Notifications"
-            className="relative grid h-11 w-11 place-items-center rounded-2xl bg-white text-slate-500 ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:text-slate-950 hover:shadow-md"
-          >
-            <Icon name="bell" className="h-5 w-5" />
-            <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white" />
-          </button>
+          <div className="relative">
+            <button
+              type="button"
+              aria-label="Notifications"
+              aria-expanded={isNotificationsOpen}
+              onClick={() => setIsNotificationsOpen((open) => !open)}
+              className="relative grid h-11 w-11 place-items-center rounded-2xl bg-white text-slate-500 ring-1 ring-slate-200 transition duration-300 hover:-translate-y-1 hover:text-slate-950 hover:shadow-lg hover:shadow-slate-200 active:translate-y-0"
+            >
+              <Icon name="bell" className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <span className="absolute right-2 top-2 grid h-5 min-w-5 place-items-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white ring-2 ring-white">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            {isNotificationsOpen && (
+              <div className="dashboard-pop absolute right-0 top-14 z-50 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-300/60">
+                <div className="flex items-center justify-between border-b border-slate-100 p-4">
+                  <div>
+                    <p className="text-sm font-bold text-slate-950">
+                      Notifications
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      {unreadCount} unread update{unreadCount === 1 ? "" : "s"}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsNotificationsOpen(false)}
+                    className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-500 transition hover:bg-slate-200 hover:text-slate-950"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                <div className="max-h-80 overflow-y-auto p-2">
+                  {notifications.length === 0 ? (
+                    <div className="p-8 text-center">
+                      <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-emerald-50 text-emerald-600">
+                        <Icon name="bell" className="h-5 w-5" />
+                      </div>
+                      <p className="mt-3 text-sm font-bold text-slate-950">
+                        All clear
+                      </p>
+                      <p className="mt-1 text-xs text-slate-400">
+                        No mock notifications right now.
+                      </p>
+                    </div>
+                  ) : (
+                    notifications.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() =>
+                          setNotifications((current) =>
+                            current.map((notification) =>
+                              notification.id === item.id
+                                ? { ...notification, unread: false }
+                                : notification,
+                            ),
+                          )
+                        }
+                        className={`group w-full rounded-2xl p-3 text-left transition duration-300 hover:bg-indigo-50 ${
+                          item.unread ? "bg-slate-50" : "bg-white"
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <span
+                            className={`mt-1 h-2.5 w-2.5 rounded-full transition ${
+                              item.unread
+                                ? "bg-indigo-600"
+                                : "bg-slate-300 group-hover:bg-indigo-300"
+                            }`}
+                          />
+                          <span className="min-w-0">
+                            <span className="block text-sm font-bold text-slate-950">
+                              {item.title}
+                            </span>
+                            <span className="mt-1 block text-xs leading-5 text-slate-500">
+                              {item.message}
+                            </span>
+                            <span className="mt-1 block text-[11px] font-semibold text-slate-400">
+                              {item.time}
+                            </span>
+                          </span>
+                        </div>
+                      </button>
+                    ))
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 border-t border-slate-100 p-3">
+                  <button
+                    type="button"
+                    onClick={markAllRead}
+                    className="rounded-2xl bg-indigo-600 px-3 py-2.5 text-xs font-bold text-white transition hover:-translate-y-0.5 hover:bg-indigo-700"
+                  >
+                    Mark all read
+                  </button>
+                  <button
+                    type="button"
+                    onClick={clearNotifications}
+                    className="rounded-2xl bg-slate-100 px-3 py-2.5 text-xs font-bold text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-200 hover:text-slate-950"
+                  >
+                    Clear all
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="hidden h-9 w-px bg-slate-200 sm:block" />
+
+          <div className="hidden items-center gap-2 md:flex">
+            <Link
+              href="/login"
+              className="rounded-2xl bg-white px-4 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition duration-300 hover:-translate-y-0.5 hover:text-slate-950 hover:shadow-md"
+            >
+              Login
+            </Link>
+            <Link
+              href="/signup"
+              className="rounded-2xl bg-slate-950 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-slate-200 transition duration-300 hover:-translate-y-0.5 hover:bg-indigo-600 hover:shadow-indigo-200"
+            >
+              Sign up
+            </Link>
+          </div>
 
           <div className="flex items-center gap-3 rounded-2xl bg-white p-1.5 pr-4 ring-1 ring-slate-200">
             <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-xs font-bold text-white">
@@ -278,7 +438,7 @@ export function DashboardShell({
     <div className="min-h-screen bg-slate-50 text-slate-600">
       <Sidebar activePath={activePath} />
       <Topbar activePath={activePath} />
-      <main className="px-4 py-6 sm:px-6 lg:ml-72 lg:px-8 lg:py-8">
+      <main className="dashboard-enter px-4 py-6 sm:px-6 lg:ml-72 lg:px-8 lg:py-8">
         {children}
       </main>
     </div>
